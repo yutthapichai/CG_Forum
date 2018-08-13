@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Discussion;
 use Auth;
 use Session;
+use App\Reply;
 class DiscussionsController extends Controller
 {
     public function create()
@@ -13,11 +14,25 @@ class DiscussionsController extends Controller
       return view('discussions.create');
     }
 
+    public function reply($id)
+    {
+      //$d = Discussion::find($id);
+      Reply::create([
+        'user_id' => Auth::id(),
+        'discussion_id' => $id,
+        'content' => request()->reply
+      ]);
+      Session::flash('success', 'Replied to discussions done!');
+      return redirect()->back();
+    }
+
+
     public function show($slug)
     {
       $discussion = Discussion::where('slug', $slug)->first();
-      return view('discussions.show')->with('discussion', $discussion);
+      return view('discussions.show')->with('d', $discussion);
     }
+
 
     public function store()
     {

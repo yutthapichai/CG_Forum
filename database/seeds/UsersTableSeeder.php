@@ -16,14 +16,14 @@ class UserstableSeeder extends Seeder
           'email' => 'admin@gmail.com',
           'admin' => 1,
           'password' => bcrypt('123456'),
-          'avatar' => asset('avatar/avatar/yut.jpg')
+          'avatar' => asset('avatars/yut.png')
         ]);
 
         App\User::create([
           'name' => 'Boom',
           'email' => 'boom@gmail.com',
           'password' => bcrypt('123456'),
-          'avatar' => asset('avatar/avatar/yut.jpg')
+          'avatar' => asset('avatars/yut.png')
         ]);
     }
 }

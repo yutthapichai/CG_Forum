@@ -11,7 +11,7 @@ class SocialsController extends Controller
     {
       return SocialAuth::authorize($provider);
     }
-    //$provider is name social in config->eloquent-oauth 
+    //$provider is name social in config->eloquent-oauth
     public function auth_callback($provider)
     {
       SocialAuth::login($provider, function($user, $details){
@@ -21,6 +21,6 @@ class SocialsController extends Controller
           $user->save();
       });
 
-      return redirect('/home');
+      return redirect('/forum');
     }
 }

@@ -22,7 +22,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <nav class="navbar navbar-expand-md navbar-dark navbar-laravel bg-dark">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -74,8 +74,8 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-3 mt-3">
-              <a href="{{ route('discussion.create') }}" class="form-control btn btn-primary">Create a new discussion</a>
-              <div class="card mt-2">
+              <a href="{{ route('discussion.create') }}" class="form-control btn btn-info">Create a new discussion</a>
+              <div class="card mt-3">
                 <div class="card-header">
                   Channels
                 </div>

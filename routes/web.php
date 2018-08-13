@@ -21,15 +21,21 @@ Route::get('/discuss', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/forum', 'ForumsController@index')->name('forum');
 
 Route::get('{provider}/auth', 'SocialsController@auth')->name('social.auth');
 
 Route::get('/{provider}/redirect', 'SocialsController@auth_callback')->name('social.callback');
 
+Route::get('discussion/{slug}', 'DiscussionsController@show')->name('discussion.show');
+
 Route::group(['middleware' => 'auth'], function(){
 
-    Route::get('discussion/{slug}', 'DiscussionsController@show')->name('discussion.show');
+    Route::get('/reply/unlike/{id}', 'RepliesController@unlike')->name('reply.unlike');
+
+    Route::get('/reply/like/{id}', 'RepliesController@like')->name('reply.like');
+
+    Route::post('discussion/{id}', 'DiscussionsController@reply')->name('discussion.reply');
 
     Route::post('discussions/store', 'DiscussionsController@store')->name('discussion.store');
 

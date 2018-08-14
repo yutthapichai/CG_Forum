@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Discussion;
+
 use Auth;
 use Session;
+use Notification;
 use App\Reply;
+use App\User;
+use App\Discussion;
 class DiscussionsController extends Controller
 {
     public function create()
@@ -16,12 +19,20 @@ class DiscussionsController extends Controller
 
     public function reply($id)
     {
-      //$d = Discussion::find($id);
-      Reply::create([
+      $d = Discussion::find($id);
+      $reply = Reply::create([
         'user_id' => Auth::id(),
         'discussion_id' => $id,
         'content' => request()->reply
       ]);
+
+      $watchers = array();
+      foreach($d->watchers as $watcher):
+        array_push($watchers, User::find($watcher->user_id));
+      endforeach;
+      //sent message to https://mailtrap.io
+      Notification::send($watchers, new \App\Notifications\NewReplyAdded($d));
+
       Session::flash('success', 'Replied to discussions done!');
       return redirect()->back();
     }

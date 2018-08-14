@@ -23,6 +23,8 @@ Auth::routes();
 
 Route::get('/forum', 'ForumsController@index')->name('forum');
 
+Route::get('channel/{slug}', 'ForumsController@channel')->name('channel');
+
 Route::get('{provider}/auth', 'SocialsController@auth')->name('social.auth');
 
 Route::get('/{provider}/redirect', 'SocialsController@auth_callback')->name('social.callback');
@@ -30,6 +32,10 @@ Route::get('/{provider}/redirect', 'SocialsController@auth_callback')->name('soc
 Route::get('discussion/{slug}', 'DiscussionsController@show')->name('discussion.show');
 
 Route::group(['middleware' => 'auth'], function(){
+
+    Route::get('/discussion/unwatch/{id}', 'WatchersController@unwatch')->name('discussion.unwatch');
+
+    Route::get('/discussion/watch/{id}', 'WatchersController@watch')->name('discussion.watch');
 
     Route::get('/reply/unlike/{id}', 'RepliesController@unlike')->name('reply.unlike');
 

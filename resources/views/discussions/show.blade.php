@@ -6,7 +6,11 @@
     <div class="card-header bg-info text-warning">
       <img src="{{ asset($d->user->avatar)}}" alt="" width="50px" height="50px">
       <span>&nbsp<b>{{ $d->user->name }} </b>&nbsp{{ $d->created_at->diffForHumans() }}</span>
-      <a href="{{ route('discussion.show', ['slug' => $d->slug ]) }}" class="btn btn-secondary btn-sm float-sm-right">view</a>
+      @if($d->is_being_watched_by_auth_user())
+        <a href="{{ route('discussion.unwatch', ['$id' => $d->id ]) }}" class="btn btn-warning btn-sm float-right">Unwatch</a>
+      @else
+        <a href="{{ route('discussion.watch', ['$id' => $d->id ]) }}" class="btn btn-secondary btn-sm float-right">Watch</a>
+      @endif
     </div>
 
     <div class="card-body text-white bg-secondary">
@@ -16,7 +20,10 @@
     </div>
 
     <div class="card-footer text-muted bg-dark">
-      <h6 class="card-text">{{ $d->replies->count() }} Repies</h6>
+      <span class="card-text">{{ $d->replies->count() }} Repies</span>
+      <a href="{{ route('channel', ['slug' => $d->channel->slug ]) }}" class="btn btn-secondary btn-sm float-right">
+        {{ $d->channel->title }}
+      </a>
     </div>
 </div>
   @foreach($d->replies as $r)
@@ -42,6 +49,7 @@
     </div>
   @endforeach
 
+  @if(Auth::check())
   <div class="card mb-3 ml-5">
       <div class="card-header bg-info text-white">
         <img src="{{ asset(Auth::user()->avatar)}}" alt="" width="50px" height="50px">
@@ -61,4 +69,9 @@
         </form>
       </div>
   </div>
+  @else
+  <div class="float-right my-3">
+    <h5>Sign in to leave a reply -></h5>
+  </div>
+  @endif
 @endsection

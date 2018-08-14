@@ -75,16 +75,19 @@
           <div class="row">
             <div class="col-lg-3 mt-3">
               <a href="{{ route('discussion.create') }}" class="form-control btn btn-info">Create a new discussion</a>
-              <div class="card mt-3">
-                <div class="card-header">
+              <a href="/forum" class="form-control btn btn-info mt-2">Home</a>
+              <div class="card mt-2">
+                <div class="card-header bg-secondary text-white text-center">
                   Channels
                 </div>
-                <div class="card-body">
-                  <ul class="list-group">
+                <div class="card-body bg-info">
+                  <div class="list-group">
                     @foreach($channels as $channel)
-                      <li class="list-group-item">{{ $channel->title }}</li>
+                      <a href="{{ route('channel', ['slug' => $channel->slug ])}}" class="list-group-item list-group-item-action list-group-item-primary">
+                        {{ $channel->title }}
+                      </a>
                     @endforeach
-                  </ul>
+                  </div>
                 </div>
               </div>
             </div>

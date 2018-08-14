@@ -17,7 +17,7 @@
 
       <div class="card-footer text-muted bg-dark">
         <span class="card-text">{{ $d->replies->count() }} Repies</span>
-        <a href="{{ route('channel', ['slug' => $d->channel->slug ]) }}" class="btn btn-secondary btn-sm float-right">
+        <a href="{{ route('channel', ['slug' => $d->channel->slug ]) }}" class="btn btn-warning btn-sm float-right">
           {{ $d->channel->title }}
         </a>
       </div>

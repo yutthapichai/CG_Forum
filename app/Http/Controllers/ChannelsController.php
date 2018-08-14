@@ -40,7 +40,8 @@ class ChannelsController extends Controller
           'channel' => 'required'
         ]);
         Channel::create([
-          'title' => $request->channel
+          'title' => $request->channel,
+          'slug' => str_slug($request->channel)
         ]);
         Session::flash('success', 'your data has been save');
         return redirect()->route('channels.index');
@@ -80,6 +81,7 @@ class ChannelsController extends Controller
     {
         $channel = Channel::find($id);
         $channel->title = $request->channel;
+        $channel->slug = str_slug($request->channel);
         $channel->save();
 
         Session::flash('info','your data has been update!');

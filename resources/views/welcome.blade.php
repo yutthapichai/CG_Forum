@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Forum leaning
+                    <a href="/forum">Forum leaning</a>
                 </div>
 
                 <div class="links">

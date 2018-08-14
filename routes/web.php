@@ -33,6 +33,10 @@ Route::get('discussion/{slug}', 'DiscussionsController@show')->name('discussion.
 
 Route::group(['middleware' => 'auth'], function(){
 
+    Route::get('/discussion/best/{id}', 'RepliesController@best_answer')->name('discussion.best.answer');
+
+    Route::get('/discussion/unbest/{id}', 'RepliesController@unbest_answer')->name('discussion.unbest.answer');
+
     Route::get('/discussion/unwatch/{id}', 'WatchersController@unwatch')->name('discussion.unwatch');
 
     Route::get('/discussion/watch/{id}', 'WatchersController@watch')->name('discussion.watch');

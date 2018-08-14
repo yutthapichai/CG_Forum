@@ -76,9 +76,12 @@
             <div class="col-lg-3 mt-3">
               <a href="{{ route('discussion.create') }}" class="form-control btn btn-info">Create a new discussion</a>
               <a href="/forum" class="form-control btn btn-info mt-2">Home</a>
+              <a href="/forum?filter=me" class="form-control btn btn-info mt-2">My discussion</a>
+              <a href="/forum?filter=solved" class="form-control btn btn-info mt-2">Answered discussion</a>
+              <a href="/forum?filter=unsolved" class="form-control btn btn-info mt-2">Auanswered discussion</a>
               <div class="card mt-2">
                 <div class="card-header bg-secondary text-white text-center">
-                  Channels
+                  <a href="{{ route('channels.index') }}" class="card-link text-white">Channels</a>
                 </div>
                 <div class="card-body bg-info">
                   <div class="list-group">

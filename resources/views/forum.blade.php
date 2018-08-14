@@ -6,7 +6,12 @@
       <div class="card-header bg-info text-warning">
         <img src="{{ asset($d->user->avatar)}}" alt="" width="50px" height="50px">
         <span>&nbsp{{ $d->user->name }} <b>{{ $d->created_at->diffForHumans() }}</b></span>
-        <a href="{{ route('discussion.show', ['slug' => $d->slug ]) }}" class="btn btn-secondary btn-sm float-sm-right">view</a>
+        <a href="{{ route('discussion.show', ['slug' => $d->slug ]) }}" class="btn btn-secondary btn-sm float-right">view</a>
+        @if($d->hasBestAnswer())
+          <span class="badge badge-pill badge-warning float-right">Has the best</span>
+        @else
+          <span class="badge badge-pill badge-secondary float-right">Don't has best</span>
+        @endif
       </div>
 
       <div class="card-body text-white bg-secondary">

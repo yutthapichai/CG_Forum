@@ -26,6 +26,9 @@ class DiscussionsController extends Controller
         'content' => request()->reply
       ]);
 
+      $reply->user->points += 25;
+      $reply->user->save();
+
       $watchers = array();
       foreach($d->watchers as $watcher):
         array_push($watchers, User::find($watcher->user_id));
@@ -41,7 +44,10 @@ class DiscussionsController extends Controller
     public function show($slug)
     {
       $discussion = Discussion::where('slug', $slug)->first();
-      return view('discussions.show')->with('d', $discussion);
+      $best_answer = $discussion->replies()->where('best_answer', 1)->first();
+      return view('discussions.show')
+                    ->with('d', $discussion)
+                    ->with('best_answer', $best_answer);
     }
 
 

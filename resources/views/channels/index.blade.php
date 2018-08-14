@@ -5,7 +5,9 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Channels</div>
+                <div class="card-header">Channels
+                  <a href="{{ route('channels.create') }}" class="card-link text-white btn btn-success btn-sm float-right">Create</a>
+                </div>
                 <div class="card-body">
                   <table class="table table-hover">
                     <thead>

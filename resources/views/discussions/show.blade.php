@@ -5,7 +5,7 @@
 <div class="card mb-3">
     <div class="card-header bg-info text-warning">
       <img src="{{ asset($d->user->avatar)}}" alt="" width="50px" height="50px">
-      <span>&nbsp<b>{{ $d->user->name }} </b>&nbsp{{ $d->created_at->diffForHumans() }}</span>
+      <span>&nbsp<b>{{ $d->user->name }} </b>( {{ $d->user->points }} )&nbsp{{ $d->created_at->diffForHumans() }}</span>
       @if($d->is_being_watched_by_auth_user())
         <a href="{{ route('discussion.unwatch', ['$id' => $d->id ]) }}" class="btn btn-warning btn-sm float-right">Unwatch</a>
       @else
@@ -17,6 +17,32 @@
       <h5 class="card-title text-center">{{ $d->title}}</h5>
       <hr>
       <p class="card-text">{{ $d->content }}</p>
+
+      @if($best_answer)
+      <hr>
+        <div class="card text-white">
+          <div class="card-header bg-info">
+            <div class="float-left">
+              <img src="{{ asset($best_answer->user->avatar)}}" alt="" width="50px" height="50px">
+              <span>&nbsp<b>{{ $best_answer->user->name }} ( {{ $best_answer->user->points }} )</b></span>
+              <span>&nbsp{{ $best_answer->created_at->toFormattedDateString() }}</span>
+            </div>
+
+            @if(Auth::id() == $d->user->id)
+            <a href="{{ route('discussion.unbest.answer',['id' => $best_answer->id]) }}" class="btn btn-sm btn-warning float-right">
+              Cancel answer
+            </a>
+            @endif
+          </div>
+          <div class="card-body alert-info">
+            <blockquote class="blockquote mb-0">
+               <p class="text-center">{{ $best_answer->content }}</p>
+               <footer class="blockquote-footer">this comment is<cite title="Source Title"> the best answer</cite></footer>
+             </blockquote>
+          </div>
+        </div>
+      @endif
+
     </div>
 
     <div class="card-footer text-muted bg-dark">
@@ -27,10 +53,17 @@
     </div>
 </div>
   @foreach($d->replies as $r)
-    <div class="card mb-3 ml-5">
+    <div class="card mb-3">
         <div class="card-header bg-info text-white">
           <img src="{{ asset($r->user->avatar)}}" alt="" width="50px" height="50px">
-          <span>&nbsp<b>{{ $r->user->name }} </b>&nbsp{{ $r->created_at->diffForHumans() }}</span>
+          <span>&nbsp<b>{{ $r->user->name }} </b>( {{ $r->user->points }} )&nbsp{{ $r->created_at->diffForHumans() }}</span>
+          @if(!$best_answer)
+            @if(Auth::id() == $d->user->id)
+              <a href="{{ route('discussion.best.answer',['id' => $r->id]) }}" class="btn btn-sm btn-secondary float-right">
+                Mark a best answer
+              </a>
+            @endif
+          @endif
         </div>
 
         <div class="card-body text-white bg-secondary">
@@ -50,7 +83,7 @@
   @endforeach
 
   @if(Auth::check())
-  <div class="card mb-3 ml-5">
+  <div class="card mb-3">
       <div class="card-header bg-info text-white">
         <img src="{{ asset(Auth::user()->avatar)}}" alt="" width="50px" height="50px">
         <span>&nbsp<b>{{ Auth::user()->name }} </b></span>

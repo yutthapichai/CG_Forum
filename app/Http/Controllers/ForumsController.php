@@ -3,15 +3,44 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use App\Discussion;
 use App\Channel;
+use Auth;
 class ForumsController extends Controller
 {
     public function index()
     {
-      $discussions = Discussion::orderBy('created_at', 'desc')->paginate(3);
+      switch (request('filter')) {
+        case 'me':
+            $discussions = Discussion::where('user_id',Auth::id())->orderBy('created_at', 'desc')->paginate(3);
+            break;
+        case 'solved':
+            $answered = array();
+            foreach(Discussion::all() as $d){
+              if($d->hasBestAnswer()){
+                array_push($answered,$d);
+              }
+            }
+            $discussions = new Paginator($answered, 3);
+            break;
+        case 'unsolved':
+            $answered = array();
+            foreach(Discussion::all() as $d){
+              if(!$d->hasBestAnswer()){
+                array_push($answered,$d);
+              }
+            }
+            $discussions = new Paginator($answered, 3);
+            break;
+        default:
+            $discussions = Discussion::orderBy('created_at', 'desc')->paginate(3);
+            break;
+      }
+
       return view('forum', ['discussions' => $discussions]);
     }
+
 
     public function channel($slug)
     {

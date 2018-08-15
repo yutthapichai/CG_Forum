@@ -74,23 +74,21 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-3 mt-3">
+              @if(Auth::check())
               <a href="{{ route('discussion.create') }}" class="form-control btn btn-info">Create a new discussion</a>
               <a href="/forum" class="form-control btn btn-info mt-2">Home</a>
               <a href="/forum?filter=me" class="form-control btn btn-info mt-2">My discussion</a>
               <a href="/forum?filter=solved" class="form-control btn btn-info mt-2">Answered discussion</a>
               <a href="/forum?filter=unsolved" class="form-control btn btn-info mt-2">No answered discussion</a>
+              @endif
               <div class="card my-2">
                 @if(Auth::check())
                 @if(Auth::user()->admin)
                 <div class="card-header bg-secondary text-white text-center">
                   <a href="{{ route('channels.index') }}" class="card-link text-white">All Channels</a>
-                  <a class="btn btn-info btn-sm float-right" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                    Link
-                  </a>
                 </div>
                 @endif
                 @endif
-                <div class="collapse" id="collapseExample">
                   <div class="list-group list-group-flush text-center">
                     @foreach($channels as $channel)
                       <a href="{{ route('channel', ['slug' => $channel->slug ])}}" class="list-group-item list-group-item-action list-group-item-dark">
@@ -98,7 +96,6 @@
                       </a>
                     @endforeach
                   </div>
-                </div>
               </div>
             </div>
             <div class="col-lg-9 mt-3">

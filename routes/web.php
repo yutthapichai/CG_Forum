@@ -40,10 +40,18 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/discussion/unwatch/{id}', 'WatchersController@unwatch')->name('discussion.unwatch');
 
     Route::get('/discussion/watch/{id}', 'WatchersController@watch')->name('discussion.watch');
+    //Reply
+    Route::get('/reply/edit/{id}', 'RepliesController@edit')->name('reply.edit');
+
+    Route::post('/reply/update/{id}', 'RepliesController@update')->name('reply.update');
 
     Route::get('/reply/unlike/{id}', 'RepliesController@unlike')->name('reply.unlike');
 
     Route::get('/reply/like/{id}', 'RepliesController@like')->name('reply.like');
+    //Discussion
+    Route::post('discussions/update/{id}', 'DiscussionsController@update')->name('discussion.update');
+
+    Route::get('discussions/edit/{slug}', 'DiscussionsController@edit')->name('discussion.edit');
 
     Route::post('discussion/{id}', 'DiscussionsController@reply')->name('discussion.reply');
 

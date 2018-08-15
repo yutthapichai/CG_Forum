@@ -48,4 +48,20 @@ class RepliesController extends Controller
       Session::flash('info', 'You have been unmarked!!');
       return redirect()->back();
     }
+
+    public function edit($id)
+    {
+        return view('replies.edit', ['reply' => Reply::find($id)]);
+    }
+
+    public function update($id)
+    {
+      $this->validate(request(), [
+        'content' => 'required'
+      ]);
+      $reply = Reply::find($id);
+      $reply->content = request()->content;
+      $reply->save();
+      return redirect()->route('discussion.show', ['slug' => $reply->discussion->slug ]);
+    }
 }

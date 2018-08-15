@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use Auth;
 use Session;
 use Notification;
@@ -45,6 +44,7 @@ class DiscussionsController extends Controller
     {
       $discussion = Discussion::where('slug', $slug)->first();
       $best_answer = $discussion->replies()->where('best_answer', 1)->first();
+
       return view('discussions.show')
                     ->with('d', $discussion)
                     ->with('best_answer', $best_answer);
@@ -70,4 +70,23 @@ class DiscussionsController extends Controller
       Session::flash('success', 'Discussion successfully create');
       return redirect()->route('discussion.show', ['slug' => $discussion->slug ]);
     }
+
+    public function edit($slug)
+    {
+      return view('discussions.edit', ['discussion' => Discussion::where('slug',$slug)->first()]);
+    }
+
+    public function update($id)
+    {
+      $this->validate(request(),[
+        'content' => 'required'
+      ]);
+      $discussion = Discussion::find($id);
+      $discussion->content = request()->content;
+      $discussion->save();
+      Session::flash('info', ' You have been updated!!');
+      return redirect()->route('discussion.show', ['slug' => $discussion->slug ]);
+    }
+
+
 }

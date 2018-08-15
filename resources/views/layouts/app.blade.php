@@ -16,7 +16,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
@@ -78,15 +78,22 @@
               <a href="/forum" class="form-control btn btn-info mt-2">Home</a>
               <a href="/forum?filter=me" class="form-control btn btn-info mt-2">My discussion</a>
               <a href="/forum?filter=solved" class="form-control btn btn-info mt-2">Answered discussion</a>
-              <a href="/forum?filter=unsolved" class="form-control btn btn-info mt-2">Auanswered discussion</a>
-              <div class="card mt-2">
+              <a href="/forum?filter=unsolved" class="form-control btn btn-info mt-2">No answered discussion</a>
+              <div class="card my-2">
+                @if(Auth::check())
+                @if(Auth::user()->admin)
                 <div class="card-header bg-secondary text-white text-center">
-                  <a href="{{ route('channels.index') }}" class="card-link text-white">Channels</a>
+                  <a href="{{ route('channels.index') }}" class="card-link text-white">All Channels</a>
+                  <a class="btn btn-info btn-sm float-right" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    Link
+                  </a>
                 </div>
-                <div class="card-body bg-info">
-                  <div class="list-group">
+                @endif
+                @endif
+                <div class="collapse" id="collapseExample">
+                  <div class="list-group list-group-flush text-center">
                     @foreach($channels as $channel)
-                      <a href="{{ route('channel', ['slug' => $channel->slug ])}}" class="list-group-item list-group-item-action list-group-item-primary">
+                      <a href="{{ route('channel', ['slug' => $channel->slug ])}}" class="list-group-item list-group-item-action list-group-item-dark">
                         {{ $channel->title }}
                       </a>
                     @endforeach
@@ -100,5 +107,9 @@
           </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js">
+
+    </script>
+    <script>hljs.initHighlightingOnLoad();</script>
 </body>
 </html>

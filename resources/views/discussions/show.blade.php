@@ -6,8 +6,13 @@
     <div class="card-header bg-info text-warning">
       <img src="{{ asset($d->user->avatar)}}" alt="" width="50px" height="50px">
       <span>&nbsp<b>{{ $d->user->name }} </b>( {{ $d->user->points }} )&nbsp{{ $d->created_at->diffForHumans() }}</span>
+      @if(Auth::id() == $d->user->id)
+        @if(!$d->hasBestAnswer())
+          <a href="{{ route('discussion.edit', ['$slug' => $d->slug ]) }}" class="btn alert-info btn-sm float-right ml-2">edit</a>
+        @endif
+      @endif
       @if($d->is_being_watched_by_auth_user())
-        <a href="{{ route('discussion.unwatch', ['$id' => $d->id ]) }}" class="btn btn-warning btn-sm float-right">Unwatch</a>
+        <a href="{{ route('discussion.unwatch', ['$id' => $d->id ]) }}" class="btn btn-warning btn-sm float-right">Watched</a>
       @else
         <a href="{{ route('discussion.watch', ['$id' => $d->id ]) }}" class="btn btn-secondary btn-sm float-right">Watch</a>
       @endif
@@ -16,7 +21,7 @@
     <div class="card-body text-white bg-secondary">
       <h5 class="card-title text-center">{{ $d->title}}</h5>
       <hr>
-      <p class="card-text">{{ $d->content }}</p>
+      <p class="card-text">{!! Markdown::convertToHtml($d->content) !!}</p>
 
       @if($best_answer)
       <hr>
@@ -36,7 +41,7 @@
           </div>
           <div class="card-body alert-info">
             <blockquote class="blockquote mb-0">
-               <p class="text-center">{{ $best_answer->content }}</p>
+               <p class="text-center">{!! Markdown::convertToHtml($best_answer->content) !!}</p>
                <footer class="blockquote-footer">this comment is<cite title="Source Title"> the best answer</cite></footer>
              </blockquote>
           </div>
@@ -57,6 +62,14 @@
         <div class="card-header bg-info text-white">
           <img src="{{ asset($r->user->avatar)}}" alt="" width="50px" height="50px">
           <span>&nbsp<b>{{ $r->user->name }} </b>( {{ $r->user->points }} )&nbsp{{ $r->created_at->diffForHumans() }}</span>
+
+          @if(Auth::id() == $r->user->id)
+            @if(!$r->best_answer)
+            <a href="{{ route('reply.edit',['id' => $r->id]) }}" class="btn btn-sm alert-info float-right ml-2">
+              Edit reply
+            </a>
+            @endif
+          @endif
           @if(!$best_answer)
             @if(Auth::id() == $d->user->id)
               <a href="{{ route('discussion.best.answer',['id' => $r->id]) }}" class="btn btn-sm btn-secondary float-right">
@@ -67,7 +80,7 @@
         </div>
 
         <div class="card-body text-white bg-secondary">
-          <p class="card-subtitle card-text">{{ $r->content }}</p>
+          <p class="card-subtitle card-text">{!! Markdown::convertToHtml($r->content) !!}</p>
         </div>
 
         <div class="card-footer text-muted bg-dark">
